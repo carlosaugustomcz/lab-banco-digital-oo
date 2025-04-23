@@ -8,16 +8,21 @@ public abstract class Conta implements IConta {
 	protected int numero;
 	protected double saldo;
 	protected Cliente cliente;
-
-	public Conta(Cliente cliente) {
+    protected Banco banco;
+	
+	public Conta(Cliente cliente, Banco banco) {
 		this.agencia = Conta.AGENCIA_PADRAO;
 		this.numero = SEQUENCIAL++;
 		this.cliente = cliente;
+        this.banco = banco;
 	}
 
 	@Override
 	public void sacar(double valor) {
 		saldo -= valor;
+		if (saldo < 0) {
+			saldo = 0;
+		}
 	}
 
 	@Override
@@ -45,6 +50,8 @@ public abstract class Conta implements IConta {
 
 	protected void imprimirInfosComuns() {
 		System.out.println(String.format("Titular: %s", this.cliente.getNome()));
+		System.out.println("Banco: " + this.banco.getCodigo());
+        System.out.println("Banco: " + this.banco.getNome());
 		System.out.println(String.format("Agencia: %d", this.agencia));
 		System.out.println(String.format("Numero: %d", this.numero));
 		System.out.println(String.format("Saldo: %.2f", this.saldo));
